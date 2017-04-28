@@ -3,7 +3,6 @@ var questionsData = new XMLHttpRequest();
 questionsData.open('GET', 'https://cdn.rawgit.com/kdzwinel/cd08d08002995675f10d065985257416/raw/811ad96a0567648ff858b4f14d0096ba241f28ef/quiz-data.json');
 
 var bntStart = document.getElementById('start');
-console.log(bntStart);
 
 bntStart.addEventListener('click', loadData);
 
@@ -13,28 +12,33 @@ function loadData(){
     console.log(question.questions[0]);
     
     var currentId = 0;
+    var score = 0;
     var amountOfQuestion = question.questions.length;
     var firstView = document.querySelector('.welcome');
     var content = document.querySelector('.game');
     var result = document.querySelector('.result');
+    var timer = document.querySelector('.timer');
     var ridle = document.getElementById('ridle');
     var answer1 = document.getElementById('ans1').nextSibling;
     var answer2 = document.getElementById('ans2').nextSibling;
     var answer3 = document.getElementById('ans3').nextSibling;
     var answer4 = document.getElementById('ans4').nextSibling;
     var number = document.getElementById('number');
-    var last = document.getElementById('max');
+    var last = document.getElementById('last');
     var bnt = document.getElementById('nextBnt');
+    var points = document.getElementById('score');
+    var max = document.getElementById('max');
     
     
     firstView.classList.add('hide-me');
     content.classList.remove('hide-me');
+    timer.classList.remove('hide');
+    
     
     //--------------------TIMER-------------------------------------------
     var counter = 0;
     var timeLeft = question.time_seconds;
     function setup() {
-        var timer = document.querySelector('.timer');
         timer.innerText = (timeLeft-counter);
 
 
@@ -79,10 +83,10 @@ function loadData(){
         }
         
         var yourAnswer = yourChoice.getAttribute('value');
-        console.log(yourAnswer);
         
         if(question.questions[currentId].answers[yourAnswer-1].correct) {
             console.log("poprawna odpowiedz");
+            score++;
         }
         else {
             console.log("błędna odpowiedz");
@@ -99,6 +103,8 @@ function loadData(){
             content.classList.add('hide-me');
             result.classList.remove('hide-me');
             number.innerText = currentId;
+            points.innerText = score;
+            max.innerText = amountOfQuestion;
         }
         loadQuestion(currentId);
     }

@@ -1,8 +1,15 @@
+body {
+    background-color: #7a8adb;
+}
+
 .container {
     width: 80vw;
     height: 80vh;
     margin: 20px auto;
-    border: 1px solid green;
+    background-color: #e2e8ff;
+/*    box-shadow: 3px 3px 30px 5px rgba(204, 204, 204, 0.9);*/
+    border-radius: 15px;
+    padding: 20px;
 }
 
 header h1 {
@@ -24,4 +31,8 @@ h3 {
 
 .hide-me {
     display: none;
+}
+
+.hide {
+    opacity: 0;
 }
