@@ -1,0 +1,19 @@
+.container {
+    width: 80vw;
+    height: 80vh;
+    margin: 20px auto;
+    border: 1px solid green;
+}
+
+h1 {
+    text-align: center;
+    padding: 10px 0;
+}
+
+h3 {
+    text-align: center;
+}
+
+.hide-me {
+    display: none;
+}
