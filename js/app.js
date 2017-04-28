@@ -20,6 +20,33 @@ questionsData.onload = function(){
     var number = document.getElementById('number');
     var last = document.getElementById('max');
     var bnt = document.getElementById('nextBnt');
+    
+    
+    //--------------------TIMER-------------------------------------------
+    var counter = 0;
+    var timeLeft = question.time_seconds;
+    function setup() {
+        var timer = document.querySelector('.timer');
+        timer.innerText = (timeLeft-counter);
+
+
+        function timeIt(){
+            counter++;
+            if (counter == timeLeft+1){
+                clearInterval(countDown);
+            }
+            else {
+                timer.innerText = (timeLeft-counter);
+            }
+            
+        }
+
+        var countDown = setInterval(timeIt, 1000);
+    }
+
+    setup();
+    
+    //--------------------------------------------------------------
 
     function loadQuestion (currentId) {
         ridle.innerText = question.questions[currentId].question;

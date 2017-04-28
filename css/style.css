@@ -5,9 +5,20 @@
     border: 1px solid green;
 }
 
-h1 {
+header h1 {
     text-align: center;
     padding: 10px 0;
+    float: left;
+    width: 80%;
+}
+
+header .timer {
+    float: left;
+    width: 20%;
+}
+
+.clear {
+    clear: both;
 }
 
 h3 {
