@@ -11,25 +11,39 @@
 <body>
     <div class="container">
         <header>
-            <p class="timer hide">TIMER</p>
+            <div class="sg-logo">
+                <img class="sg-logo__image" src="img/brainly-761d75d6ea.svg">
+            </div>
+            <p class="timer hide sg-text-bit sg-text-bit--gray">TIMER</p>
             <h1 class="sg-text-bit sg-text-bit--gray">
                 QUIZ
             </h1>
         </header>
         <section class="welcome">
             <p>Hello, ready for the QUZI</p>
-            <button type="button" id="start" class="sg-button-secondary">START</button>
+            <div class="wraper">
+                <button type="button" id="start" class="sg-button-secondary">START</button>
+            </div>
         </section>
         <section class="game hide-me">
-                <h3 id="ridle">Question</h3>
-                <input type="radio" name="q1" id="ans1" value="1"><span >A</span><br>
-                <input type="radio" name="q1" id="ans2" value="2"><span>B</span><br>
-                <input type="radio" name="q1" id="ans3" value="3"><span>C</span><br>
-                <input type="radio" name="q1" id="ans4" value="4"><span>D</span><br>
+            <h3 id="ridle">Question</h3>
+            <div class="choices">
+                <label><input type="radio" name="q1" id="ans1" value="1" ><span class="select">A</span></label><br>
+                <label><input type="radio" name="q1" id="ans2" value="2"><span class="select">B</span></label><br>
+                <label><input type="radio" name="q1" id="ans3" value="3"><span class="select">C</span></label><br>
+                <label><input type="radio" name="q1" id="ans4" value="4"><span class="select">D</span></label>
+            </div>
+            
+            <div class="wraper">
                 <button type="button" id="nextBnt" class="sg-button-secondary">NEXT</button>
+            </div>
         </section>
         <section class="result hide-me">
-            <div>Your SCORE is <span id="score"> x </span>/<span id="max"></span></div>
+            <div>Your SCORE is <span id="score"> x </span>/<span id="max"></span>
+            </div>
+            <div class="wraper">
+                <button type="button" id="nextBnt" class="sg-button-secondary">START OVER</button>
+            </div>
         </section>
                             
         <hr>

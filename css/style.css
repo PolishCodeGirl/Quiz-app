@@ -5,24 +5,39 @@ body {
 .container {
     width: 80vw;
     height: 80vh;
-    margin: 20px auto;
+    margin: auto;
     background-color: #e2e8ff;
 /*    box-shadow: 3px 3px 30px 5px rgba(204, 204, 204, 0.9);*/
     border-radius: 15px;
     padding: 20px;
+    margin-top: 10vh;
+}
+
+header {
+    height: 30%;
+}
+
+section {
+    height: 60%;
+}
+
+footer {
+    height: 10%;
 }
 
 header h1 {
     text-align: center;
     padding: 10px 0;
+    clear: both;
 }
 
 header .timer {
     text-align: right;
+    float: right;
 }
 
-.clear {
-    clear: both;
+.sg-logo {
+    float: left;
 }
 
 h3 {
@@ -35,4 +50,36 @@ h3 {
 
 .hide {
     opacity: 0;
+}
+
+.wraper {
+    text-align: center;
+    height: 10%;
+}
+
+/**/
+.welcome p {
+    height: 90%;
+}
+/**/
+
+.game #ridle {
+    height: 25%;
+}
+
+.game .choices {
+    height: 65%;
+}
+
+/*
+.game .wraper {
+    height: 10%;
+}
+*/
+
+.select {
+    margin-left: 5px;
+}
+.select:hover {
+    color: red;
 }
