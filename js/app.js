@@ -2,14 +2,19 @@
 var questionsData = new XMLHttpRequest();
 questionsData.open('GET', 'https://cdn.rawgit.com/kdzwinel/cd08d08002995675f10d065985257416/raw/811ad96a0567648ff858b4f14d0096ba241f28ef/quiz-data.json');
 
-questionsData.onload = function(){
+var bntStart = document.getElementById('start');
+console.log(bntStart);
+
+bntStart.addEventListener('click', loadData);
+
+//questionsData.onload = 
+function loadData(){
     var question = JSON.parse(questionsData.responseText);
     console.log(question.questions[0]);
     
-    
-    
     var currentId = 0;
     var amountOfQuestion = question.questions.length;
+    var firstView = document.querySelector('.welcome');
     var content = document.querySelector('.game');
     var result = document.querySelector('.result');
     var ridle = document.getElementById('ridle');
@@ -22,6 +27,9 @@ questionsData.onload = function(){
     var bnt = document.getElementById('nextBnt');
     
     
+    firstView.classList.add('hide-me');
+    content.classList.remove('hide-me');
+    
     //--------------------TIMER-------------------------------------------
     var counter = 0;
     var timeLeft = question.time_seconds;
@@ -32,8 +40,11 @@ questionsData.onload = function(){
 
         function timeIt(){
             counter++;
-            if (counter == timeLeft+1){
+            if (counter == timeLeft){
                 clearInterval(countDown);
+                content.classList.add('hide-me');
+                result.classList.remove('hide-me');
+                timer.innerText = 0;
             }
             else {
                 timer.innerText = (timeLeft-counter);

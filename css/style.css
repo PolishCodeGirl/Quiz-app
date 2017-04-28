@@ -8,13 +8,10 @@
 header h1 {
     text-align: center;
     padding: 10px 0;
-    float: left;
-    width: 80%;
 }
 
 header .timer {
-    float: left;
-    width: 20%;
+    text-align: right;
 }
 
 .clear {
