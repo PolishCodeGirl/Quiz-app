@@ -81,5 +81,9 @@ h3 {
     margin-left: 5px;
 }
 .select:hover {
-    color: red;
+    color: #787878;
+}
+
+.yourScore {
+    height: 90%;
 }

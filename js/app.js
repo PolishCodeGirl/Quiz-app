@@ -26,6 +26,7 @@ function loadData(){
     var number = document.getElementById('number');
     var last = document.getElementById('last');
     var bnt = document.getElementById('nextBnt');
+    var bntAgain = document.getElementById('againBnt');
     var points = document.getElementById('score');
     var max = document.getElementById('max');
     
@@ -44,11 +45,12 @@ function loadData(){
 
         function timeIt(){
             counter++;
-            if (counter == timeLeft){
+            // if times run out or user finish the quiz 
+            if (counter > timeLeft || result.offsetLeft > 0){
                 clearInterval(countDown);
                 content.classList.add('hide-me');
                 result.classList.remove('hide-me');
-                timer.innerText = 0;
+                //timer.innerText = 0;
             }
             else {
                 timer.innerText = (timeLeft-counter);
@@ -105,6 +107,7 @@ function loadData(){
             number.innerText = currentId;
             points.innerText = score;
             max.innerText = amountOfQuestion;
+            currentId = 0;
         }
         loadQuestion(currentId);
     }
@@ -112,6 +115,7 @@ function loadData(){
     loadQuestion(currentId);
     
     bnt.addEventListener('click', loadNextQuestion);
+    //bntAgain.addEventListener('click', loadNextQuestion);
 };
 questionsData.send();
 
