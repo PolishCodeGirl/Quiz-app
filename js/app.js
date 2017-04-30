@@ -3,8 +3,10 @@ var questionsData = new XMLHttpRequest();
 questionsData.open('GET', 'https://cdn.rawgit.com/kdzwinel/cd08d08002995675f10d065985257416/raw/811ad96a0567648ff858b4f14d0096ba241f28ef/quiz-data.json');
 
 var bntStart = document.getElementById('start');
+var bntAgain = document.getElementById('againBnt');
 
 bntStart.addEventListener('click', loadData);
+bntAgain.addEventListener('click', loadData);
 
 //questionsData.onload = 
 function loadData(){
@@ -19,6 +21,7 @@ function loadData(){
     var result = document.querySelector('.result');
     var timer = document.querySelector('.timer');
     var ridle = document.getElementById('ridle');
+    var progress = document.getElementById('progress');
     var answer1 = document.getElementById('ans1').nextSibling;
     var answer2 = document.getElementById('ans2').nextSibling;
     var answer3 = document.getElementById('ans3').nextSibling;
@@ -26,14 +29,19 @@ function loadData(){
     var number = document.getElementById('number');
     var last = document.getElementById('last');
     var bnt = document.getElementById('nextBnt');
-    var bntAgain = document.getElementById('againBnt');
     var points = document.getElementById('score');
     var max = document.getElementById('max');
     
     
     firstView.classList.add('hide-me');
     content.classList.remove('hide-me');
+    result.classList.add('hide-me');
     timer.classList.remove('hide');
+    progress.classList.remove('hide');
+    
+    bnt.innerText = 'NEXT';
+//    currentId = 0;
+//    score = 0;
     
     
     //--------------------TIMER-------------------------------------------
@@ -107,7 +115,7 @@ function loadData(){
             number.innerText = currentId;
             points.innerText = score;
             max.innerText = amountOfQuestion;
-            currentId = 0;
+            currentId = -1;
         }
         loadQuestion(currentId);
     }
@@ -115,7 +123,7 @@ function loadData(){
     loadQuestion(currentId);
     
     bnt.addEventListener('click', loadNextQuestion);
-    //bntAgain.addEventListener('click', loadNextQuestion);
+
 };
 questionsData.send();
 
