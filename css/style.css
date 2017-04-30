@@ -86,4 +86,10 @@ h3 {
 
 .yourScore {
     height: 90%;
+    padding: 20px;
+    text-align: center;
+}
+
+.yourScore h1 {
+    color: #020a1a;
 }

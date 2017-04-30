@@ -64,6 +64,11 @@ function loadData(){
                 timer.innerText = (timeLeft-counter);
             }
             
+            // warning of expiring time
+            if ((timeLeft-counter) < 30) {
+                timer.style.color = "#ff796b";
+            }
+            
         }
 
         var countDown = setInterval(timeIt, 1000);
