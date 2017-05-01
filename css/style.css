@@ -67,7 +67,7 @@ h3 {
     height: 25%;
 }
 
-.game .choices {
+.game #choices {
     height: 65%;
 }
 
