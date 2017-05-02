@@ -84,12 +84,26 @@ h3 {
     color: #787878;
 }
 
-.yourScore {
+.view {
     height: 90%;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.view h1 {
+    color: #020a1a;
+}
+
+.view h2 {
     text-align: center;
 }
 
-.yourScore h1 {
-    color: #020a1a;
+.information {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }

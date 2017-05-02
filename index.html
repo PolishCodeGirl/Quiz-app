@@ -9,7 +9,9 @@
 </head>
 
 <body>
+    
     <div class="container">
+        
         <header>
             <div class="sg-logo">
                 <img class="sg-logo__image" src="img/brainly-761d75d6ea.svg">
@@ -19,12 +21,16 @@
                 QUIZ
             </h1>
         </header>
+        
         <section class="welcome">
-            <p>Hello, ready for the QUIZ</p>
+            <div class="view">
+                <h2 class="sg-header-primary sg-header-primary--small"> Hello, ready for the QUIZ</h2>
+            </div>
             <div class="wraper">
                 <button type="button" id="start" class="sg-button-secondary">START</button>
             </div>
         </section>
+        
         <section class="game hide-me">
             <h3 id="ridle">Question</h3>
             <div id="choices">
@@ -40,8 +46,9 @@
                 <button type="button" id="nextBnt" class="sg-button-secondary">NEXT</button>
             </div>
         </section>
+        
         <section class="result hide-me">
-            <div class="yourScore">
+            <div class="view">
                 <h1 class="sg-text-bit"><span id="score"> 0</span>/<span id="max">0</span></h1>
                 <p>
                     YOUR SCORE
@@ -50,12 +57,12 @@
             <div class="wraper">
                 <button type="button" id="againBnt" class="sg-button-secondary">START OVER</button>
             </div>
-        </section>
-                            
+        </section>                 
         <hr>
-        <footer>
+        
+        <footer class="information">
             <p id="progress" class="hide">Question <span id="number">x</span> of <span id="last">y</span></p>
-            Author: PolishCodeGirl
+            <p>Author: PolishCodeGirl</p>
         </footer>
     </div>
     

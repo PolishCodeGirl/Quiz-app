@@ -2,16 +2,19 @@
 var questionsData = new XMLHttpRequest();
 questionsData.open('GET', 'https://cdn.rawgit.com/kdzwinel/cd08d08002995675f10d065985257416/raw/811ad96a0567648ff858b4f14d0096ba241f28ef/quiz-data.json');
 
-var bntStart = document.getElementById('start');
-var bntAgain = document.getElementById('againBnt');
+
+// click events for loading buttons 
+var bntStart = document.getElementById('start'),
+    bntAgain = document.getElementById('againBnt');
 
 bntStart.addEventListener('click', loadData);
 bntAgain.addEventListener('click', loadData);
 
-//questionsData.onload = 
+
+//Load data function  
 function loadData(){
     var question = JSON.parse(questionsData.responseText);
-    console.log(question.questions[0]);
+    //console.log(question.questions[0]);
     
     var currentId = 0;
     var score = 0;
@@ -23,10 +26,6 @@ function loadData(){
     var ridle = document.getElementById('ridle');
     var progress = document.getElementById('progress');
     var answersContent = document.getElementById('choices');
-//    var answer1 = document.getElementById('ans1').nextSibling;
-//    var answer2 = document.getElementById('ans2').nextSibling;
-//    var answer3 = document.getElementById('ans3').nextSibling;
-//    var answer4 = document.getElementById('ans4').nextSibling;
     var number = document.getElementById('number');
     var last = document.getElementById('last');
     var bnt = document.getElementById('nextBnt');
@@ -41,13 +40,13 @@ function loadData(){
     progress.classList.remove('hide');
     
     bnt.innerText = 'NEXT';
-//    currentId = 0;
-//    score = 0;
+    console.log(timer);
     
     
     //--------------------TIMER-------------------------------------------
     var counter = 0;
-    var timeLeft = question.time_seconds;
+    var timeLeft = 20; //question.time_seconds;
+    
     function setup() {
         timer.innerText = (timeLeft-counter);
 
@@ -59,15 +58,19 @@ function loadData(){
                 clearInterval(countDown);
                 content.classList.add('hide-me');
                 result.classList.remove('hide-me');
-                //timer.innerText = 0;
+                //currentId = 0;
+                //loadQuestion(currentId);
             }
             else {
                 timer.innerText = (timeLeft-counter);
             }
             
             // warning of expiring time
-            if ((timeLeft-counter) < 30) {
+            if ((timeLeft-counter) < 30 && (timeLeft-counter) > 0) {
                 timer.style.color = "#ff796b";
+            }
+            else { 
+                timer.style.color = "#9fa6b5";
             }
             
         }
@@ -99,6 +102,7 @@ function loadData(){
             newInput.setAttribute("id", "ans" + questionId);
             newInput.setAttribute("value", questionId);
             newSpan.className = "select";
+            
             newSpan.innerText = question.questions[currentId].answers[i].answer;
 
             newLabel.appendChild(newInput);
@@ -114,11 +118,6 @@ function loadData(){
         //----------------------------------------------------
         
         ridle.innerText = question.questions[currentId].question;
-//        console.log(answer1);
-//        answer1.innerText = question.questions[currentId].answers[0].answer;
-//        answer2.innerText = question.questions[currentId].answers[1].answer;
-//        answer3.innerText = question.questions[currentId].answers[2].answer;
-//        answer4.innerText = question.questions[currentId].answers[3].answer;
         
         number.innerText = currentId + 1;
         last.innerText = amountOfQuestion;
