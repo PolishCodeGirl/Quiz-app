@@ -3,63 +3,129 @@ var questionsData = new XMLHttpRequest();
 questionsData.open('GET', 'https://cdn.rawgit.com/kdzwinel/cd08d08002995675f10d065985257416/raw/811ad96a0567648ff858b4f14d0096ba241f28ef/quiz-data.json');
 
 
-// click events for loading buttons 
-var bntStart = document.getElementById('start'),
-    bntAgain = document.getElementById('againBnt');
-
-bntStart.addEventListener('click', loadData);
-bntAgain.addEventListener('click', loadData);
-
-
-//Load data function  
-function loadData(){
+//Load data arrow function  
+let loadData = () => {
     var question = JSON.parse(questionsData.responseText);
-    //console.log(question.questions[0]);
     
-    var currentId = 0;
-    var score = 0;
-    var amountOfQuestion = question.questions.length;
-    var firstView = document.querySelector('.welcome');
-    var content = document.querySelector('.game');
-    var result = document.querySelector('.result');
-    var timer = document.querySelector('.timer');
-    var ridle = document.getElementById('ridle');
-    var progress = document.getElementById('progress');
-    var answersContent = document.getElementById('choices');
-    var number = document.getElementById('number');
-    var last = document.getElementById('last');
-    var bnt = document.getElementById('nextBnt');
-    var points = document.getElementById('score');
-    var max = document.getElementById('max');
+    var QId = 0,
+        score = 0;
+    var numOfQuestion = question.questions.length;
+    
+    // DOM elements
+    var startView = document.querySelector('.welcome'),
+        quizView = document.querySelector('.content'),
+        resultView = document.querySelector('.result'),
+        timer = document.querySelector('.timer'),
+        ridle = document.getElementById('ridle'),
+        progress = document.getElementById('progress'),
+        answersContent = document.getElementById('choices'),
+        first = document.getElementById('first'),
+        last = document.getElementById('last'),
+        points = document.getElementById('score'),
+        max = document.getElementById('max'),
+        bntNext = document.getElementById('next');
     
     
-    firstView.classList.add('hide-me');
-    content.classList.remove('hide-me');
-    result.classList.add('hide-me');
+    // show desirable view and hide undesirable view
+    startView.classList.add('hide-me');
+    resultView.classList.add('hide-me');
+    quizView.classList.remove('hide-me');
     timer.classList.remove('hide');
     progress.classList.remove('hide');
     
-    bnt.innerText = 'NEXT';
-    console.log(timer);
+    bntNext.innerText = 'NEXT';
+    
+    
+    //arrow function for loading question from JSON 
+    let loadQuestion = (QId) => {
+        
+        var numOfAnswers = question.questions[QId].answers.length;
+        
+        answersContent.innerHTML="";
+        ridle.innerText = question.questions[QId].question;
+        first.innerText = QId + 1;
+        last.innerText = numOfQuestion;
+        
+        // loop for loading all answers for current question 
+        for(var i = 0; i<numOfAnswers; i++) {
+            var newLabel = document.createElement("label");
+            var newInput = document.createElement("input");
+            var newSpan = document.createElement("span");
+            var newBr = document.createElement("br");
+            var questionId = question.questions[QId].answers[i].id;
+
+            newInput.setAttribute("type", `radio`);
+            newInput.setAttribute("name", `question`);
+            newInput.setAttribute("id", `ans${questionId}`);
+            newInput.setAttribute("value", questionId);
+            newSpan.className = "select";
+            
+            newSpan.innerText = question.questions[QId].answers[i].answer;
+
+            newLabel.appendChild(newInput);
+            newLabel.insertBefore(newSpan, newInput.nextSibling); 
+            answersContent.appendChild(newLabel);
+            answersContent.appendChild(newBr);
+        }
+        
+    }
+    
+    let loadNextQuestion = () => {
+        var yourChoice = document.querySelector('input[type=radio]:checked');
+        if(!yourChoice){
+            alert('Please select your answer!');
+            return;
+        }
+        
+        var yourAnswer = yourChoice.getAttribute('value');
+        
+        if(question.questions[QId].answers[yourAnswer-1].correct) {
+            console.log("poprawna odpowiedz");
+            score++;
+        }
+        else {
+            console.log("błędna odpowiedz");
+        }
+        QId++;
+        yourChoice.checked = false;
+        first.innerText = QId + 1;
+        
+        if(QId == numOfQuestion - 1) {
+            bntNext.innerText = 'FINISH';
+        }
+        
+        if(QId == numOfQuestion){
+            quizView.classList.add('hide-me');
+            resultView.classList.remove('hide-me');
+            first.innerText = QId;
+            QId = -1;
+        }
+        
+        points.innerText = score;
+        max.innerText = numOfQuestion;
+        loadQuestion(QId);
+    }
+
+    loadQuestion(QId);
+    
+    bntNext.addEventListener('click', loadNextQuestion);
     
     
     //--------------------TIMER-------------------------------------------
-    var counter = 0;
-    var timeLeft = 20; //question.time_seconds;
-    
-    function setup() {
+    // arrow function for counting down the running time
+    let setup = () => {
+        var counter = 0,
+            timeLeft = 100; //question.time_seconds;
         timer.innerText = (timeLeft-counter);
 
-
-        function timeIt(){
+        
+        let timeIt = () => {
             counter++;
             // if times run out or user finish the quiz 
-            if (counter > timeLeft || result.offsetLeft > 0){
+            if (counter > timeLeft || resultView.offsetLeft > 0){
                 clearInterval(countDown);
-                content.classList.add('hide-me');
-                result.classList.remove('hide-me');
-                //currentId = 0;
-                //loadQuestion(currentId);
+                quizView.classList.add('hide-me');
+                resultView.classList.remove('hide-me');
             }
             else {
                 timer.innerText = (timeLeft-counter);
@@ -82,89 +148,15 @@ function loadData(){
     
     //--------------------------------------------------------------
 
-    function loadQuestion (currentId) {
-        
-        //---------------------------------------------------
-        answersContent.innerHTML="";
-        var answerLength = question.questions[currentId].answers.length;
-        var newDiv = document.createElement("div");
-        
-        for(var i = 0; i<answerLength; i++) {
-            var newLabel = document.createElement("label");
-            var newInput = document.createElement("input");
-            var newSpan = document.createElement("span");
-            var newBr = document.createElement("br");
-            var questionId = question.questions[currentId].answers[i].id
-            //console.log(newLabel);
-
-            newInput.setAttribute("type", "radio");
-            newInput.setAttribute("name", "question");
-            newInput.setAttribute("id", "ans" + questionId);
-            newInput.setAttribute("value", questionId);
-            newSpan.className = "select";
-            
-            newSpan.innerText = question.questions[currentId].answers[i].answer;
-
-            newLabel.appendChild(newInput);
-            newLabel.insertBefore(newSpan, newInput.nextSibling); 
-            newDiv.appendChild(newLabel);
-            newDiv.appendChild(newBr);
-        }
-        
-        answersContent.appendChild(newDiv);
-        console.log(newDiv);
-                
-
-        //----------------------------------------------------
-        
-        ridle.innerText = question.questions[currentId].question;
-        
-        number.innerText = currentId + 1;
-        last.innerText = amountOfQuestion;
-        
-    }
-    
-    function loadNextQuestion () {
-        var yourChoice = document.querySelector('input[type=radio]:checked');
-        if(!yourChoice){
-            alert('Please select your answer!');
-            return;
-        }
-        
-        var yourAnswer = yourChoice.getAttribute('value');
-        
-        if(question.questions[currentId].answers[yourAnswer-1].correct) {
-            console.log("poprawna odpowiedz");
-            score++;
-        }
-        else {
-            console.log("błędna odpowiedz");
-        }
-        currentId++;
-        yourChoice.checked = false;
-        number.innerText = currentId + 1;
-        
-        if(currentId == amountOfQuestion - 1) {
-            bnt.innerText = 'FINISH';
-        }
-        
-        if(currentId == amountOfQuestion){
-            content.classList.add('hide-me');
-            result.classList.remove('hide-me');
-            number.innerText = currentId;
-            currentId = -1;
-        }
-        
-        points.innerText = score;
-        max.innerText = amountOfQuestion;
-        loadQuestion(currentId);
-    }
-
-    loadQuestion(currentId);
-    
-    bnt.addEventListener('click', loadNextQuestion);
-
 };
+
+// click events for loading buttons 
+var bntStart = document.getElementById('start'),
+    bntAgain = document.getElementById('again');
+
+bntStart.addEventListener('click', loadData);
+bntAgain.addEventListener('click', loadData);
+
 questionsData.send();
 
 

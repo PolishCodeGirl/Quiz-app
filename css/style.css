@@ -63,16 +63,16 @@ h3 {
 }
 /**/
 
-.game #ridle {
+.content #ridle {
     height: 25%;
 }
 
-.game #choices {
+.content #choices {
     height: 65%;
 }
 
 /*
-.game .wraper {
+.content .wraper {
     height: 10%;
 }
 */
