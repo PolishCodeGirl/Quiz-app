@@ -1,6 +1,7 @@
 // Get data from JSON
-const questionsData = new XMLHttpRequest();
-questionsData.open('GET', 'https://cdn.rawgit.com/kdzwinel/cd08d08002995675f10d065985257416/raw/811ad96a0567648ff858b4f14d0096ba241f28ef/quiz-data.json');
+let questionsData = new XMLHttpRequest();
+const urlJSON = `https://cdn.rawgit.com/kdzwinel/cd08d08002995675f10d065985257416/raw/811ad96a0567648ff858b4f14d0096ba241f28ef/quiz-data.json`;
+questionsData.open('GET', urlJSON);
 
 // DOM elements
     let quiz = document.querySelector('.container'),
@@ -8,15 +9,16 @@ questionsData.open('GET', 'https://cdn.rawgit.com/kdzwinel/cd08d08002995675f10d0
         quizView = document.querySelector('.content'),
         resultView = document.querySelector('.result'),
         hiView = document.querySelector('.view h2'),
-        timer = document.querySelector('.timer'),
+        clock = document.querySelector('.timer'),
         ridle = document.getElementById('ridle'),
-        progress = document.getElementById('progress'),
+        //progress = document.getElementById('progress'),
         answersContent = document.getElementById('choices'),
         first = document.getElementById('first'),
         last = document.getElementById('last'),
         points = document.getElementById('score'),
         max = document.getElementById('max'),
         bntNext = document.getElementById('next');
+var progress = document.getElementById('progress');
 
 
 let mobile = window.matchMedia("screen and (max-width: 767px)");
@@ -38,10 +40,13 @@ let loadData = () => {
     startView.classList.add('hide-me');
     resultView.classList.add('hide-me');
     quizView.classList.remove('hide-me');
-    timer.classList.remove('hide');
+    clock.classList.remove('hide');
     progress.classList.remove('hide');
     
     bntNext.innerText = 'NEXT';
+    
+    // call timer arrow function 
+    timer(question.time_seconds);
     
     
     //arrow function for loading question from JSON 
@@ -90,7 +95,7 @@ let loadData = () => {
     }
     
     let loadNextQuestion = () => {
-        var yourChoice = document.querySelector('input[type=radio]:checked');
+        let yourChoice = document.querySelector('input[type=radio]:checked');
         if(!yourChoice){
             alert('Please select your answer!');
             return;
@@ -99,12 +104,10 @@ let loadData = () => {
         let yourAnswer = yourChoice.getAttribute('value');
         
         if(question.questions[QId].answers[yourAnswer-1].correct) {
-            console.log("poprawna odpowiedz");
             score++;
         }
-        else {
-            console.log("błędna odpowiedz");
-        }
+       
+        
         QId++;
         yourChoice.checked = false;
         first.innerText = QId + 1;
@@ -128,44 +131,6 @@ let loadData = () => {
     loadQuestion(QId);
     
     bntNext.addEventListener('click', loadNextQuestion);
-    
-    
-    //--------------------TIMER-------------------------------------------
-    // arrow function for counting down the running time
-    let setup = () => {
-        let counter = 0,
-            timeLeft = question.time_seconds;
-        timer.innerText = (timeLeft-counter);
-
-        
-        let timeIt = () => {
-            counter++;
-            // if times run out or user finish the quiz 
-            if (counter > timeLeft || resultView.offsetLeft > 0){
-                clearInterval(countDown);
-                quizView.classList.add('hide-me');
-                resultView.classList.remove('hide-me');
-            }
-            else {
-                timer.innerText = (timeLeft-counter);
-            }
-            
-            // warning of expiring time
-            if ((timeLeft-counter) < 30 && (timeLeft-counter) > 0) {
-                timer.style.color = "#ff796b";
-            }
-            else { 
-                timer.style.color = "#9fa6b5";
-            }
-            
-        }
-
-        let countDown = setInterval(timeIt, 1000);
-    }
-
-    setup();
-    
-    //--------------------------------------------------------------
 
 };
 
@@ -178,4 +143,38 @@ bntAgain.addEventListener('click', loadData);
 
 questionsData.send();
 
+
+//--------------------TIMER-------------------------------------------
+    // arrow function for counting down the running time
+let timer = (seconds) => {
+    let counter = 0,
+        //timeLeft = question.time_seconds;
+        timeLeft = seconds;
+    clock.innerText = (timeLeft-counter);
+        
+    let timeIt = () => {
+        counter++;
+        // if times run out or user finish the quiz 
+        if (counter > timeLeft || resultView.offsetLeft > 0){
+            clearInterval(countDown);
+            quizView.classList.add('hide-me');
+            resultView.classList.remove('hide-me');
+        }
+        else {
+            clock.innerText = (timeLeft-counter);
+        }
+        
+        // warning of expiring time
+        if ((timeLeft-counter) < 30 && (timeLeft-counter) > 0) {
+            clock.style.color = "#ff796b";
+        }
+        else { 
+            clock.style.color = "#9fa6b5";
+        }
+        
+    }
+        let countDown = setInterval(timeIt, 1000);
+}
+    
+    //--------------------------------------------------------------
 
