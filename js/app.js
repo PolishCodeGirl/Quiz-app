@@ -1,9 +1,10 @@
 // Get data from JSON
-let questionsData = new XMLHttpRequest();
+const questionsData = new XMLHttpRequest();
 questionsData.open('GET', 'https://cdn.rawgit.com/kdzwinel/cd08d08002995675f10d065985257416/raw/811ad96a0567648ff858b4f14d0096ba241f28ef/quiz-data.json');
 
 // DOM elements
-    let startView = document.querySelector('.welcome'),
+    let quiz = document.querySelector('.container'),
+        startView = document.querySelector('.welcome'),
         quizView = document.querySelector('.content'),
         resultView = document.querySelector('.result'),
         hiView = document.querySelector('.view h2'),
@@ -21,7 +22,8 @@ questionsData.open('GET', 'https://cdn.rawgit.com/kdzwinel/cd08d08002995675f10d0
 let mobile = window.matchMedia("screen and (max-width: 767px)");
 
 if (!mobile.matches){
-    hiView.classList.remove('sg-header-primary--small');    
+    hiView.classList.remove('sg-header-primary--small'); 
+    quiz.style.marginTop = '10vh';
     }
 
 //Load data arrow function  
