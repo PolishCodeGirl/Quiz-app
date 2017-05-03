@@ -124,7 +124,7 @@ let loadData = () => {
             quizView.classList.add('hide-me');
             resultView.classList.remove('hide-me');
             first.innerText = QId;
-            QId = -1;
+            QId = 0;
         }
               
         points.innerText = score;
