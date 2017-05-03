@@ -34,7 +34,7 @@ let loadData = () => {
     
     let QId = 0,
         score = 0;
-    let numOfQuestion = question.questions.length;    
+    let numOfQuestion = question.questions.length; 
     
     // show desirable view and hide undesirable view
     startView.classList.add('hide-me');
@@ -46,8 +46,7 @@ let loadData = () => {
     bntNext.innerText = 'NEXT';
     
     // call timer arrow function 
-    timer(question.time_seconds);
-    
+    timer(question.time_seconds);    
     
     //arrow function for loading question from JSON 
     let loadQuestion = (QId) => {
@@ -140,22 +139,27 @@ let loadData = () => {
 
 };
 
+// arrow function for reloading page 
+let refresh = () => {
+    window.location.reload();
+};
+
 // click events for loading buttons 
 let bntStart = document.getElementById('start'),
     bntAgain = document.getElementById('again');
 
 bntStart.addEventListener('click', loadData);
-bntAgain.addEventListener('click', loadData);
+bntAgain.addEventListener('click', refresh);
 
 questionsData.send();
 
 
 //--------------------TIMER-------------------------------------------
-    // arrow function for counting down the running time
+// arrow function for counting down the running time
 let timer = (seconds) => {
     let counter = 0,
         timeLeft = seconds;
-        //timeLeft = question.time_seconds;
+    
     clock.innerText = (timeLeft-counter);
         
     let timeIt = () => {
@@ -181,6 +185,3 @@ let timer = (seconds) => {
     }
         let countDown = setInterval(timeIt, 1000);
 }
-    
-    //--------------------------------------------------------------
-
