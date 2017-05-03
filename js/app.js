@@ -11,16 +11,16 @@ questionsData.open('GET', urlJSON);
         hiView = document.querySelector('.view h2'),
         clock = document.querySelector('.timer'),
         ridle = document.getElementById('ridle'),
-        //progress = document.getElementById('progress'),
+        progress = document.getElementById('progress'),
         answersContent = document.getElementById('choices'),
         first = document.getElementById('first'),
         last = document.getElementById('last'),
         points = document.getElementById('score'),
         max = document.getElementById('max'),
         bntNext = document.getElementById('next');
-var progress = document.getElementById('progress');
 
 
+// matchMedia for different window width
 let mobile = window.matchMedia("screen and (max-width: 767px)");
 
 if (!mobile.matches){
@@ -52,10 +52,11 @@ let loadData = () => {
     //arrow function for loading question from JSON 
     let loadQuestion = (QId) => {
         
-        let numOfAnswers = question.questions[QId].answers.length;
+        let currentQuestion = question.questions[QId];
+        let numOfAnswers = currentQuestion.answers.length;
         
         answersContent.innerHTML="";
-        ridle.innerText = question.questions[QId].question;
+        ridle.innerText = currentQuestion.question;
         first.innerText = QId + 1;
         last.innerText = numOfQuestion;
         
@@ -66,14 +67,21 @@ let loadData = () => {
                 newSpan = document.createElement("span"),
                 newBr = document.createElement("br");
             
-            let questionId = question.questions[QId].answers[i].id;
+            let questionId = currentQuestion.answers[i].id;
 
             newInput.setAttribute("type", `radio`);
             newInput.setAttribute("name", `question`);
             newInput.setAttribute("id", `ans${questionId}`);
             newInput.setAttribute("value", questionId);
             
-                    
+            newSpan.innerText = currentQuestion.answers[i].answer;
+
+            newLabel.appendChild(newInput);
+            newLabel.insertBefore(newSpan, newInput.nextSibling); 
+            answersContent.appendChild(newLabel);
+            answersContent.appendChild(newBr);
+            
+            // setting up attributies depend on window width
             if (mobile.matches){
                 newSpan.setAttribute("class", "sg-text sg-text--small select");
                 ridle.style.overflowY = "scroll";
@@ -81,28 +89,25 @@ let loadData = () => {
             }
             else {
                 newSpan.setAttribute("class", "sg-text select");
-                ridle.classList.remove("sg-text--small");
+                ridle.removeAttribute("class");
             }
-            
-            newSpan.innerText = question.questions[QId].answers[i].answer;
-
-            newLabel.appendChild(newInput);
-            newLabel.insertBefore(newSpan, newInput.nextSibling); 
-            answersContent.appendChild(newLabel);
-            answersContent.appendChild(newBr);
         }
         
     }
     
+    //arrow function for loading next question
     let loadNextQuestion = () => {
+        // get choosen answer
         let yourChoice = document.querySelector('input[type=radio]:checked');
+        let yourAnswer = yourChoice.getAttribute('value');
+        
+        // check if answer is choosen
         if(!yourChoice){
             alert('Please select your answer!');
             return;
         }
         
-        let yourAnswer = yourChoice.getAttribute('value');
-        
+        // check if answer is right
         if(question.questions[QId].answers[yourAnswer-1].correct) {
             score++;
         }
@@ -122,7 +127,7 @@ let loadData = () => {
             first.innerText = QId;
             QId = -1;
         }
-        
+              
         points.innerText = score;
         max.innerText = numOfQuestion;
         loadQuestion(QId);
@@ -130,6 +135,7 @@ let loadData = () => {
 
     loadQuestion(QId);
     
+    // click event for loading next question
     bntNext.addEventListener('click', loadNextQuestion);
 
 };
@@ -148,8 +154,8 @@ questionsData.send();
     // arrow function for counting down the running time
 let timer = (seconds) => {
     let counter = 0,
-        //timeLeft = question.time_seconds;
         timeLeft = seconds;
+        //timeLeft = question.time_seconds;
     clock.innerText = (timeLeft-counter);
         
     let timeIt = () => {
